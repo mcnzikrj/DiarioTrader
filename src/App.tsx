@@ -5,8 +5,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import Trades from "./pages/Trades.tsx";
+import Auth from "./pages/Auth.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { TradesProvider } from "./context/TradesContext";
+import AuthGate from "./components/AuthGate";
 
 const queryClient = new QueryClient();
 
@@ -15,16 +17,17 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <TradesProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <TradesProvider>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/trades" element={<Trades />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/" element={<AuthGate><Index /></AuthGate>} />
+            <Route path="/trades" element={<AuthGate><Trades /></AuthGate>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
-      </TradesProvider>
+        </TradesProvider>
+      </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );

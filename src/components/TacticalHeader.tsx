@@ -1,8 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import { Activity } from "lucide-react";
+import { Activity, LogOut } from "lucide-react";
+import { useTrades } from "@/context/TradesContext";
 
 export default function TacticalHeader() {
   const { pathname } = useLocation();
+  const { signOut } = useTrades();
   const links = [
     { to: "/", label: "DASHBOARD" },
     { to: "/trades", label: "ADD_TRADE" },
@@ -41,6 +43,13 @@ export default function TacticalHeader() {
             </Link>
           );
         })}
+        <button
+          onClick={signOut}
+          className="px-3 py-2 text-xs font-bold uppercase tracking-widest border border-grid text-muted-foreground hover:text-alert hover:border-alert/40 transition-colors flex items-center gap-2"
+        >
+          <LogOut className="size-3" />
+          SAIR
+        </button>
       </nav>
     </header>
   );
