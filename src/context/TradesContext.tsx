@@ -1,8 +1,11 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import type { Session } from "@supabase/supabase-js";
+import { toast } from "@/components/ui/sonner";
 
 export type Trade = {
   id: string;
-  date: string; // ISO yyyy-mm-dd
+  date: string;
   numTrades: number;
   revenue: number;
   fees: number;
@@ -10,42 +13,99 @@ export type Trade = {
 
 type TradesContextType = {
   trades: Trade[];
-  addTrade: (t: Omit<Trade, "id">) => void;
-  removeTrade: (id: string) => void;
+  session: Session | null;
+  loading: boolean;
+  addTrade: (t: Omit<Trade, "id">) => Promise<void>;
+  removeTrade: (id: string) => Promise<void>;
+  signOut: () => Promise<void>;
   totals: { revenue: number; fees: number; profit: number; trades: number };
 };
 
 const TradesContext = createContext<TradesContextType | null>(null);
 
-const STORAGE_KEY = "nexus-trades-v1";
-
-const seed: Trade[] = [
-  { id: "s1", date: "2026-04-21", numTrades: 12, revenue: 4820, fees: 84 },
-  { id: "s2", date: "2026-04-22", numTrades: 8, revenue: 2150, fees: 52 },
-  { id: "s3", date: "2026-04-23", numTrades: 15, revenue: -980, fees: 96 },
-  { id: "s4", date: "2026-04-24", numTrades: 10, revenue: 3640, fees: 70 },
-  { id: "s5", date: "2026-04-25", numTrades: 18, revenue: 6210, fees: 124 },
-  { id: "s6", date: "2026-04-27", numTrades: 14, revenue: 5180, fees: 98 },
-  { id: "s7", date: "2026-04-28", numTrades: 9, revenue: -1240, fees: 64 },
-];
-
 export function TradesProvider({ children }: { children: ReactNode }) {
-  const [trades, setTrades] = useState<Trade[]>(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) return JSON.parse(raw) as Trade[];
-    } catch {}
-    return seed;
-  });
+  const [trades, setTrades] = useState<Trade[]>([]);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
-  }, [trades]);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, s) => {
+      setSession(s);
+    });
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setLoading(false);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
-  const addTrade = (t: Omit<Trade, "id">) =>
-    setTrades((prev) => [...prev, { ...t, id: crypto.randomUUID() }]);
-  const removeTrade = (id: string) =>
+  useEffect(() => {
+    if (!session) {
+      setTrades([]);
+      return;
+    }
+    (async () => {
+      const { data, error } = await supabase
+        .from("trades")
+        .select("*")
+        .order("date", { ascending: true });
+      if (error) {
+        toast.error("Erro ao carregar trades");
+        return;
+      }
+      setTrades(
+        (data ?? []).map((r: any) => ({
+          id: r.id,
+          date: r.date,
+          numTrades: r.num_trades,
+          revenue: Number(r.revenue),
+          fees: Number(r.fees),
+        }))
+      );
+    })();
+  }, [session]);
+
+  const addTrade = async (t: Omit<Trade, "id">) => {
+    if (!session) return;
+    const { data, error } = await supabase
+      .from("trades")
+      .insert({
+        user_id: session.user.id,
+        date: t.date,
+        num_trades: t.numTrades,
+        revenue: t.revenue,
+        fees: t.fees,
+      })
+      .select()
+      .single();
+    if (error) {
+      toast.error("Erro ao adicionar trade");
+      return;
+    }
+    setTrades((prev) => [
+      ...prev,
+      {
+        id: data.id,
+        date: data.date,
+        numTrades: data.num_trades,
+        revenue: Number(data.revenue),
+        fees: Number(data.fees),
+      },
+    ]);
+  };
+
+  const removeTrade = async (id: string) => {
+    const { error } = await supabase.from("trades").delete().eq("id", id);
+    if (error) {
+      toast.error("Erro ao remover");
+      return;
+    }
     setTrades((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+  };
 
   const revenue = trades.reduce((s, t) => s + t.revenue, 0);
   const fees = trades.reduce((s, t) => s + t.fees, 0);
@@ -55,8 +115,11 @@ export function TradesProvider({ children }: { children: ReactNode }) {
     <TradesContext.Provider
       value={{
         trades,
+        session,
+        loading,
         addTrade,
         removeTrade,
+        signOut,
         totals: { revenue, fees, profit: revenue - fees, trades: tradesCount },
       }}
     >
