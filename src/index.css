@@ -2,95 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Tactical Dark theme */
+    --background: 0 0% 1%;
+    --foreground: 240 5% 84%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --chassis: 240 6% 4%;
+    --panel: 240 5% 7%;
+    --grid: 240 4% 11%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --card: 240 6% 4%;
+    --card-foreground: 240 5% 84%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --popover: 240 6% 4%;
+    --popover-foreground: 240 5% 84%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --primary: 142 100% 50%;
+    --primary-foreground: 0 0% 1%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: 240 5% 7%;
+    --secondary-foreground: 240 5% 84%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 240 4% 11%;
+    --muted-foreground: 240 5% 50%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: 187 100% 50%;
+    --accent-foreground: 0 0% 1%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: 343 100% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    --warning: 39 100% 50%;
+    --warning-foreground: 0 0% 1%;
 
-    --sidebar-background: 0 0% 98%;
+    --matrix: 142 100% 50%;
+    --alert: 343 100% 50%;
+    --cyan: 187 100% 50%;
+    --amber: 39 100% 50%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --border: 240 4% 11%;
+    --input: 240 4% 11%;
+    --ring: 142 100% 50%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    --radius: 0.125rem;
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-background: 240 6% 4%;
+    --sidebar-foreground: 240 5% 84%;
+    --sidebar-primary: 142 100% 50%;
+    --sidebar-primary-foreground: 0 0% 1%;
+    --sidebar-accent: 240 4% 11%;
+    --sidebar-accent-foreground: 240 5% 84%;
+    --sidebar-border: 240 4% 11%;
+    --sidebar-ring: 142 100% 50%;
 
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --shadow-matrix: 0 0 16px hsl(142 100% 50% / 0.4);
+    --shadow-alert: 0 0 10px hsl(343 100% 50% / 0.6);
   }
 }
 
@@ -100,6 +67,35 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Rajdhani', sans-serif;
+    background-image: linear-gradient(hsl(var(--grid)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--grid)) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center center;
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: hsl(var(--matrix));
+    color: hsl(var(--background));
+  }
+}
+
+@layer utilities {
+  .font-mono-data {
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .font-display {
+    font-family: 'Rajdhani', sans-serif;
+  }
+  .text-glow-matrix {
+    text-shadow: 0 0 16px hsl(var(--matrix) / 0.5);
+  }
+  .text-glow-alert {
+    text-shadow: 0 0 12px hsl(var(--alert) / 0.5);
+  }
+  .panel-tactical {
+    @apply bg-chassis border border-grid;
   }
 }

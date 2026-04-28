@@ -13,12 +13,27 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        display: ["Rajdhani", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        chassis: "hsl(var(--chassis))",
+        panel: "hsl(var(--panel))",
+        grid: "hsl(var(--grid))",
+        matrix: "hsl(var(--matrix))",
+        alert: "hsl(var(--alert))",
+        cyan: "hsl(var(--cyan))",
+        amber: "hsl(var(--amber))",
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
