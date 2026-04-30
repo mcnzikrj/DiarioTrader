@@ -20,6 +20,25 @@
 </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Restore path from GitHub Pages 404.html SPA fallback
+      (function () {
+        var q = new URLSearchParams(window.location.search);
+        var p = q.get("p");
+        if (p !== null) {
+          q.delete("p");
+          var extra = q.get("q");
+          q.delete("q");
+          var rest = q.toString();
+          var newUrl =
+            window.location.pathname.replace(/\/$/, "") +
+            p +
+            (extra ? "?" + extra + (rest ? "&" + rest : "") : rest ? "?" + rest : "") +
+            window.location.hash;
+          window.history.replaceState(null, "", newUrl);
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
