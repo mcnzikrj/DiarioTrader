@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nexus Trading</title>
+    <script>
+      // SPA fallback for GitHub Pages: redirect any deep path to index.html
+      // preserving the original path as a query so the router can restore it.
+      (function () {
+        var repo = "/DiarioTrader";
+        var l = window.location;
+        var path = l.pathname.indexOf(repo) === 0 ? l.pathname.slice(repo.length) : l.pathname;
+        l.replace(
+          l.protocol + "//" + l.host + repo + "/?p=" +
+          encodeURIComponent(path) +
+          (l.search ? "&q=" + encodeURIComponent(l.search.slice(1)) : "") +
+          l.hash
+        );
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
