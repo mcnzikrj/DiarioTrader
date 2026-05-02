@@ -8,6 +8,7 @@ export default function TacticalHeader() {
   const links = [
     { to: "/", label: "DASHBOARD" },
     { to: "/trades", label: "ADD_TRADE" },
+    { to: "/account", label: "CONTA" },
   ];
 
   return (

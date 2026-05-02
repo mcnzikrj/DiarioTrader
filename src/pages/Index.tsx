@@ -2,13 +2,14 @@ import TacticalHeader from "@/components/TacticalHeader";
 import KpiCard from "@/components/KpiCard";
 import WinLossChart from "@/components/WinLossChart";
 import FinancialChart from "@/components/FinancialChart";
+import PeriodFilter from "@/components/PeriodFilter";
 import { useTrades } from "@/context/TradesContext";
 
 const fmt = (n: number) =>
   `${n < 0 ? "-" : ""}$${Math.abs(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
 export default function Index() {
-  const { totals } = useTrades();
+  const { totals, balance } = useTrades();
   const feesPct = totals.revenue !== 0 ? ((totals.fees / Math.abs(totals.revenue)) * 100).toFixed(2) : "0.00";
 
   return (
@@ -17,6 +18,33 @@ export default function Index() {
         <TacticalHeader />
 
         <h2 className="sr-only">Dashboard Day Trader</h2>
+
+        {/* Saldo - sempre total, não filtrado */}
+        <section className="mb-4">
+          <KpiCard
+            label="Saldo da Conta"
+            value={`${balance >= 0 ? "" : "-"}$${Math.abs(balance).toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}`}
+            variant="cyan"
+            hintLabel="Depósitos + Lucro − Saques"
+            hint="TOTAL"
+            badge={
+              <span className="font-mono text-[10px] bg-cyan/10 text-cyan px-1.5 py-0.5 border border-cyan/20 uppercase">
+                BALANCE
+              </span>
+            }
+          />
+        </section>
+
+        {/* Filtro de período para os 3 KPIs abaixo */}
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+            // PERÍODO
+          </span>
+          <PeriodFilter />
+        </div>
 
         <section className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
           <KpiCard

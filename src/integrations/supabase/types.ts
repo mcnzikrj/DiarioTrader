@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          date: string
+          id: string
+          note: string | null
+          type: Database["public"]["Enums"]["account_tx_type"]
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          date?: string
+          id?: string
+          note?: string | null
+          type: Database["public"]["Enums"]["account_tx_type"]
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          date?: string
+          id?: string
+          note?: string | null
+          type?: Database["public"]["Enums"]["account_tx_type"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       trades: {
         Row: {
           created_at: string
@@ -52,7 +82,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      account_tx_type: "deposit" | "withdraw"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -179,6 +209,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      account_tx_type: ["deposit", "withdraw"],
+    },
   },
 } as const

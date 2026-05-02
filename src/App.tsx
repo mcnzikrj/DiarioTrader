@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import Trades from "./pages/Trades.tsx";
+import Account from "./pages/Account.tsx";
 import Auth from "./pages/Auth.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { TradesProvider } from "./context/TradesContext";
@@ -23,6 +24,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/" element={<AuthGate><Index /></AuthGate>} />
             <Route path="/trades" element={<AuthGate><Trades /></AuthGate>} />
+            <Route path="/account" element={<AuthGate><Account /></AuthGate>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
