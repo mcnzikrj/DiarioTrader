@@ -10,9 +10,9 @@ import {
 } from "recharts";
 
 export default function FinancialChart() {
-  const { trades } = useTrades();
+  const { filteredTrades } = useTrades();
 
-  const sorted = [...trades].sort((a, b) => a.date.localeCompare(b.date));
+  const sorted = [...filteredTrades].sort((a, b) => a.date.localeCompare(b.date));
   let cum = 0;
   const data = sorted.map((t) => {
     cum += t.revenue - t.fees;
