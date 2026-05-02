@@ -2,9 +2,9 @@ import { useTrades } from "@/context/TradesContext";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 export default function WinLossChart() {
-  const { trades } = useTrades();
+  const { filteredTrades } = useTrades();
 
-  const data = [...trades]
+  const data = [...filteredTrades]
     .sort((a, b) => a.date.localeCompare(b.date))
     .map((t) => ({
       date: t.date.slice(5),
