@@ -17,7 +17,7 @@ export default function TacticalHeader() {
         <div className="size-3 rounded-sm bg-alert animate-pulse" style={{ boxShadow: "var(--shadow-alert)" }} />
         <div className="flex flex-col">
           <h1 className="text-foreground font-bold text-xl md:text-2xl leading-none tracking-tight uppercase">
-            NEXUS_CORE // TACTICAL
+            Marcio Trader
           </h1>
           <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest mt-1">
             NODE: BR-EQ-01 | LATENCY: 4MS | SESSION LIVE
