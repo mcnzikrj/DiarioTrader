@@ -40,7 +40,7 @@ export default function Auth() {
       <form onSubmit={submit} className="w-full max-w-sm border-2 border-grid p-6 space-y-4 bg-card">
         <div className="border-b-2 border-grid pb-3">
           <h1 className="text-xl font-bold uppercase tracking-widest text-matrix">
-            NEXUS_CORE // ACCESS
+            Marcio Trader
           </h1>
           <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest mt-1">
             {mode === "signin" ? "AUTHENTICATE NODE" : "REGISTER NEW OPERATOR"}
