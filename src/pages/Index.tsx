@@ -3,6 +3,7 @@ import KpiCard from "@/components/KpiCard";
 import WinLossChart from "@/components/WinLossChart";
 import FinancialChart from "@/components/FinancialChart";
 import PeriodFilter from "@/components/PeriodFilter";
+import TradingCalendar from "@/components/TradingCalendar";
 import { useTrades } from "@/context/TradesContext";
 
 const fmt = (n: number) =>
@@ -90,6 +91,10 @@ export default function Index() {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           <WinLossChart />
           <FinancialChart />
+        </section>
+
+        <section className="mt-4 md:mt-6">
+          <TradingCalendar />
         </section>
       </div>
     </main>
