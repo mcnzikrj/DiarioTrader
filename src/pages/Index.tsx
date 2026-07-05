@@ -92,6 +92,10 @@ export default function Index() {
           <WinLossChart />
           <FinancialChart />
         </section>
+
+        <section className="mt-4 md:mt-6">
+          <TradingCalendar />
+        </section>
       </div>
     </main>
   );
