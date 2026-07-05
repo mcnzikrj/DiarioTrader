@@ -3,6 +3,7 @@ import KpiCard from "@/components/KpiCard";
 import WinLossChart from "@/components/WinLossChart";
 import FinancialChart from "@/components/FinancialChart";
 import PeriodFilter from "@/components/PeriodFilter";
+import TradingCalendar from "@/components/TradingCalendar";
 import { useTrades } from "@/context/TradesContext";
 
 const fmt = (n: number) =>
